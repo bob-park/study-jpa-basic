@@ -50,12 +50,20 @@ public class JpaMain {
       //
 
       // * 변경 감지
-      Member member = em.find(Member.class, 104L);
-
-      member.setName("ZZZZ");
+//      Member member = em.find(Member.class, 104L);
+//
+//      member.setName("ZZZZ");
 
       // 이거 쓰면 안됨 - 써도 아무 이득이 없음
       //      em.persist(member);
+
+      // * 플러쉬(flush)
+      Member member = new Member(200L, "member200");
+
+      em.persist(member);
+
+      // 바로 SQL 실행됨
+      em.flush();
 
       System.out.println("============");
 
