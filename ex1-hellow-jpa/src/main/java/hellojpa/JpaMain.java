@@ -50,20 +50,31 @@ public class JpaMain {
       //
 
       // * 변경 감지
-//      Member member = em.find(Member.class, 104L);
-//
-//      member.setName("ZZZZ");
+      //      Member member = em.find(Member.class, 104L);
+      //
+      //      member.setName("ZZZZ");
 
       // 이거 쓰면 안됨 - 써도 아무 이득이 없음
       //      em.persist(member);
 
       // * 플러쉬(flush)
-      Member member = new Member(200L, "member200");
-
-      em.persist(member);
+      //      Member member = new Member(200L, "member200");
+      //
+      //      em.persist(member);
 
       // 바로 SQL 실행됨
-      em.flush();
+      //      em.flush();
+
+      // * 영속
+      Member member = em.find(Member.class, 200L);
+      member.setName("AAAA");
+
+      // * 준영속 - JPA 에서 더이상 관리하지 않는 상태가 되기 때문에, commit() 를 해도 SQL 이 실행되지 않음
+      // 특정 entity 만
+      //      em.detach(member);
+
+      // 전부
+      em.clear();
 
       System.out.println("============");
 
