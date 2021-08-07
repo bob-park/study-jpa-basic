@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -23,40 +22,44 @@ public class JpaMain {
 
     // code
     try {
-      // * 추가
-      Member member = new Member();
-      member.setId(2L);
-      member.setName("HelloB");
 
-      em.persist(member);
+      // 비영속 상태
+      //      Member member = new Member();
+      //      member.setId(100L);
+      //      member.setName("HelloJPA");
 
-      // * 조회
-      Member findMember = em.find(Member.class, 1L);
+      // 영속
+      // * DB 저장 X
+      // * Query 를 쌓아놈
+      //      System.out.println("=== BEFORE ===");
+      //      em.persist(member);
+      //      System.out.println("=== AFTER ===");
 
-      System.out.println("findMember.id = " + findMember.getId());
-      System.out.println("findMember.name = " + findMember.getName());
+      // * Entity Manager 에서 제거 - 준영속상태
+      //      em.detach(member);
 
-      // * 삭제
-      //            em.remove(findMember);
+      // DB 에서 가져오지 않고, Entity Manager 에서 가져옴 - 없으면 DB 조회 후 Entity Manager 에 추가하여 가져옴
+      //      Member findMember = em.find(Member.class, 100L);
+      //
+      //      System.out.println("findMember.id" + findMember.getId());
+      //      System.out.println("findMember.name" + findMember.getName());
 
-      // * 수정
-      // ! 수정시 객체의 value만 변경하면, JPA 가 커밋 시점에 체크하고 변경부분이 있는 경우 update query 를 생성후 커밋 시점에 실행한다.
-      findMember.setName("HelloJPA");
+      // * 쓰기 지연
+      //      em.persist(new Member(103L, "HelloJPA! 103"));
+      //      em.persist(new Member(104L, "HelloJPA! 104"));
+      //
 
-      // * 전체 조회 (JPQL - 객체 지향 쿼리)
-      // Table 이 아닌, 객체가 대상이다.
-      List<Member> result =
-          em.createQuery("select m from Member as m", Member.class)
-              // pagination start
-              .setFirstResult(1)
-              .setMaxResults(10)
-              // pagination end
-              .getResultList();
+      // * 변경 감지
+      Member member = em.find(Member.class, 104L);
 
-      for (Member m : result) {
-        System.out.println("member.name = " + m.getName());
-      }
+      member.setName("ZZZZ");
 
+      // 이거 쓰면 안됨 - 써도 아무 이득이 없음
+      //      em.persist(member);
+
+      System.out.println("============");
+
+      // * 쌓아논 Query 를 실행함
       tx.commit();
     } catch (Exception e) {
       tx.rollback();
