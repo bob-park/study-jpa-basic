@@ -23,39 +23,6 @@ public class JpaMain {
 
     // code
     try {
-      // * 추가
-      Member member = new Member();
-      member.setId(2L);
-      member.setName("HelloB");
-
-      em.persist(member);
-
-      // * 조회
-      Member findMember = em.find(Member.class, 1L);
-
-      System.out.println("findMember.id = " + findMember.getId());
-      System.out.println("findMember.name = " + findMember.getName());
-
-      // * 삭제
-      //            em.remove(findMember);
-
-      // * 수정
-      // ! 수정시 객체의 value만 변경하면, JPA 가 커밋 시점에 체크하고 변경부분이 있는 경우 update query 를 생성후 커밋 시점에 실행한다.
-      findMember.setName("HelloJPA");
-
-      // * 전체 조회 (JPQL - 객체 지향 쿼리)
-      // Table 이 아닌, 객체가 대상이다.
-      List<Member> result =
-          em.createQuery("select m from Member as m", Member.class)
-              // pagination start
-              .setFirstResult(1)
-              .setMaxResults(10)
-              // pagination end
-              .getResultList();
-
-      for (Member m : result) {
-        System.out.println("member.name = " + m.getName());
-      }
 
       tx.commit();
     } catch (Exception e) {
