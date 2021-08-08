@@ -20,8 +20,8 @@ public class Order {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  private Member member;
-
+  // ! 맵핑 필요
+  //  private Member member;
 
   public Long getId() {
     return id;
@@ -53,13 +53,5 @@ public class Order {
 
   public void setStatus(OrderStatus status) {
     this.status = status;
-  }
-
-  public Member getMember() {
-    return member;
-  }
-
-  public void setMember(Member member) {
-    this.member = member;
   }
 }
