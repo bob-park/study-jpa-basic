@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>jpa-book</groupId>
-    <artifactId>jpa-shoop</artifactId>
+    <artifactId>jpa-shop</artifactId>
     <version>1.0.0</version>
 
     <properties>
