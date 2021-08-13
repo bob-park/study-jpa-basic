@@ -14,8 +14,9 @@ public class Team {
 
   private String name;
 
+  /** 읽기만 가능해야한다. 즉, 주인은 Member 가 된다. 왜래키가 있는 곳이 주인이 되야된다. */
   @OneToMany(mappedBy = "team")
-  List<Member> members = new ArrayList<>(); // 관례 상 초기화 해준다.
+  private List<Member> members = new ArrayList<>(); // 관례 상 초기화 해준다.
 
   public Long getId() {
     return id;
