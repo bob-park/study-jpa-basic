@@ -42,7 +42,7 @@ public class JpaMain {
 
       em.persist(memberA);
 
-      // ! Persistence Context 를 비워주이 않고 사용한다면
+      // ! Persistence Context 를 비워주지 않고 사용한다면
       //      em.flush();
       //      em.clear();
 
