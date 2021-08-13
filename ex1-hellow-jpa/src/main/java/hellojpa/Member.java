@@ -48,9 +48,13 @@ public class Member {
    *
    * @param team
    */
-  public void changeTeam(Team team) {
-    this.team = team;
+  //  public void changeTeam(Team team) {
+  //    this.team = team;
+  //
+  //    team.getMembers().add(this);
+  //  }
 
-    team.getMembers().add(this);
+  public void setTeam(Team team) {
+    this.team = team;
   }
 }

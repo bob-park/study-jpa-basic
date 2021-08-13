@@ -35,8 +35,10 @@ public class JpaMain {
 
       // ! 주의 양방향 연관관계 맵핑 시 주인이든 아니든, 양쪽 모두 다 값을 입력해야 side effect 를 예방할 수 있다.
       // * 주인쪽에서 연관관계 편의 메소드를 생성하여 편하게 사용하자!!
+      // ! 연관 관계 편의 메소드는 한 곳에서만 생성하여 사용하자.
       //      teamA.getMembers().add(memberA);
-      memberA.changeTeam(teamA);
+      //      memberA.changeTeam(teamA);
+      teamA.addMember(memberA);
 
       em.persist(memberA);
 
