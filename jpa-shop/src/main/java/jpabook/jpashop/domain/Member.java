@@ -63,4 +63,9 @@ public class Member {
   public List<Order> getOrders() {
     return orders;
   }
+
+  public void addOrder(Order order) {
+    order.setMember(this);
+    orders.add(order);
+  }
 }
