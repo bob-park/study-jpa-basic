@@ -43,7 +43,14 @@ public class Member {
     return team;
   }
 
-  public void setTeam(Team team) {
+  /**
+   * ! setter 메소드는 초기화 외 사용하는 것은 부적절하므로, naming 을 set 아닌 다른 것으로 하는 것을 추천
+   *
+   * @param team
+   */
+  public void changeTeam(Team team) {
     this.team = team;
+
+    team.getMembers().add(this);
   }
 }
