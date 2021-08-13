@@ -24,7 +24,27 @@ public class JpaMain {
     // code
     try {
 
+      Team teamA = new Team();
+      teamA.setName("TeamA");
 
+      em.persist(teamA);
+
+      Member memberA = new Member();
+
+      memberA.setName("MemberA");
+      memberA.setTeam(teamA);
+
+      em.persist(memberA);
+
+      // DB 에서 바로 가져오는 쿼리를 보고 싶을때
+      em.flush();
+      em.clear();
+
+      Member findMember = em.find(Member.class, memberA.getId());
+
+      for (Member m : findMember.getTeam().getMembers()) {
+        System.out.println("m = " + m.getName());
+      }
 
       tx.commit();
     } catch (Exception e) {
