@@ -32,18 +32,28 @@ public class JpaMain {
       Member memberA = new Member();
 
       memberA.setName("MemberA");
+
+      // ! 주의 양방향 연관관계 맵핑 시 주인이든 아니든, 양쪽 모두 다 값을 입력해야 side effect 를 예방할 수 있다.
+      //      teamA.getMembers().add(memberA);
       memberA.setTeam(teamA);
 
       em.persist(memberA);
 
-      // DB 에서 바로 가져오는 쿼리를 보고 싶을때
-      em.flush();
-      em.clear();
+      // ! Persistence Context 를 비워주이 않고 사용한다면
+      //      em.flush();
+      //      em.clear();
 
-      Member findMember = em.find(Member.class, memberA.getId());
+      //      Member findMember = em.find(Member.class, memberA.getId());
+      //
+      //      for (Member m : findMember.getTeam().getMembers()) {
+      //        System.out.println("m = " + m.getName());
+      //      }
 
-      for (Member m : findMember.getTeam().getMembers()) {
-        System.out.println("m = " + m.getName());
+      // ! DB 에서 가져오는 것이 아닌, 1차 캐시(Persistence Context) 에 있던, team 를 가져오기 때문에, members 가 비워져 있다.
+      Team findTeam = em.find(Team.class, teamA.getId());
+
+      for (Member m : findTeam.getMembers()) {
+        System.out.println("m : " + m.getName());
       }
 
       tx.commit();

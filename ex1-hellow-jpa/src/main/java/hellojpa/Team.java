@@ -34,6 +34,11 @@ public class Team {
     this.name = name;
   }
 
+  /**
+   * Fetch Type 이 Lazy(default) 인 경우 이 메소드를 사용할 때, JPA 에서 query를 실행함.
+   *
+   * @return
+   */
   public List<Member> getMembers() {
     return members;
   }
