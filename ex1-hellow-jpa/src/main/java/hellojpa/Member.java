@@ -6,29 +6,12 @@ import java.util.Date;
 @Entity
 public class Member {
 
-  @Id private Long id;
-
-  @Column(name = "name")
+  @Id @GeneratedValue private Long id;
   private String username;
 
-  private Integer age;
-
-  // enum 타입을 쓸 경우
-  // DB 에는 enum 이 없다.
-  @Enumerated(EnumType.STRING)
-  private RoleType roleType;
-
-  // 날짜 타입을 쓸 경우
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date createdDate;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date lastModifiedDate;
-
-  // 큰 콘텐츠를 쓸 경우
-  @Lob private String description;
-
-  public Member() {}
+  @ManyToOne
+  @JoinColumn(name = "TEAM_ID")
+  private Team team;
 
   public Long getId() {
     return id;
@@ -46,43 +29,11 @@ public class Member {
     this.username = username;
   }
 
-  public Integer getAge() {
-    return age;
+  public Team getTeam() {
+    return team;
   }
 
-  public void setAge(Integer age) {
-    this.age = age;
-  }
-
-  public RoleType getRoleType() {
-    return roleType;
-  }
-
-  public void setRoleType(RoleType roleType) {
-    this.roleType = roleType;
-  }
-
-  public Date getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  public Date getLastModifiedDate() {
-    return lastModifiedDate;
-  }
-
-  public void setLastModifiedDate(Date lastModifiedDate) {
-    this.lastModifiedDate = lastModifiedDate;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
+  public void setTeam(Team team) {
+    this.team = team;
   }
 }
