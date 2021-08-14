@@ -9,9 +9,10 @@ public class Member {
   @Id @GeneratedValue private Long id;
   private String username;
 
-  @ManyToOne
-  @JoinColumn(name = "TEAM_ID")
-  private Team team;
+  // ! N:1 맵핑시
+//  @ManyToOne
+//  @JoinColumn(name = "TEAM_ID")
+//  private Team team;
 
   public Long getId() {
     return id;
@@ -29,11 +30,11 @@ public class Member {
     this.username = username;
   }
 
-  public Team getTeam() {
-    return team;
-  }
-
-  public void setTeam(Team team) {
-    this.team = team;
-  }
+//  public Team getTeam() {
+//    return team;
+//  }
+//
+//  public void setTeam(Team team) {
+//    this.team = team;
+//  }
 }

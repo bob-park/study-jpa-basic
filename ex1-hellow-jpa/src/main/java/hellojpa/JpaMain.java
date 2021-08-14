@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -23,6 +22,21 @@ public class JpaMain {
 
     // code
     try {
+
+      Member member = new Member();
+      member.setUsername("memberA");
+
+      em.persist(member);
+
+      Team team = new Team();
+      team.setName("teamA");
+
+      // ! 1:N 연관관계 맵핑 시 이부분이 애매함
+      // member insert -> team insert -> member update team_id
+      // ? member 의 FK 가 NOT NULL 인 경우는
+      team.getMembers().add(member);
+
+      em.persist(team);
 
       tx.commit();
     } catch (Exception e) {
