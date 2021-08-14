@@ -10,9 +10,16 @@ public class Member {
   private String username;
 
   // ! N:1 맵핑시
-//  @ManyToOne
-//  @JoinColumn(name = "TEAM_ID")
-//  private Team team;
+  //  @ManyToOne
+  //  @JoinColumn(name = "TEAM_ID")
+  //  private Team team;
+
+  // ! 1:N 양방향 시 - JPA 에서 1:N 양방향은 스펙 상 공식적으로 지원해주지 않음
+  // ! 사용하지 않는 걸 권장
+  // insertable, updatable 를 모두 false 로 하면 읽기 전용이 됨
+  @ManyToOne
+  @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
+  private Team team;
 
   public Long getId() {
     return id;
@@ -30,11 +37,11 @@ public class Member {
     this.username = username;
   }
 
-//  public Team getTeam() {
-//    return team;
-//  }
-//
-//  public void setTeam(Team team) {
-//    this.team = team;
-//  }
+  public Team getTeam() {
+    return team;
+  }
+
+  //  public void setTeam(Team team) {
+  //    this.team = team;
+  //  }
 }
