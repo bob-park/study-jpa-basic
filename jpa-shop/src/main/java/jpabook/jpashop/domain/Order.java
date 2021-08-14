@@ -26,6 +26,10 @@ public class Order {
   @OneToMany(mappedBy = "order")
   private List<OrderItem> orderItems = new ArrayList<>();
 
+  @OneToOne
+  @JoinColumn(name = "DELIVARY_ID")
+  private Delivery delivery;
+
   public Long getId() {
     return id;
   }
@@ -66,5 +70,13 @@ public class Order {
     orderItem.setOrder(this);
 
     orderItems.add(orderItem);
+  }
+
+  public Delivery getDelivery() {
+    return delivery;
+  }
+
+  public void setDelivery(Delivery delivery) {
+    this.delivery = delivery;
   }
 }
