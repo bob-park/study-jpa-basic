@@ -21,6 +21,10 @@ public class Member {
   @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
   private Team team;
 
+  @OneToOne
+  @JoinColumn(name = "LOCKER_ID") // ! 꼭 넣자 - 않넣으면 default Name 이 지저분함
+  private Locker locker;
+
   public Long getId() {
     return id;
   }
@@ -44,4 +48,14 @@ public class Member {
   //  public void setTeam(Team team) {
   //    this.team = team;
   //  }
+
+  public Locker getLocker() {
+    return locker;
+  }
+
+  public void setLocker(Locker locker) {
+    this.locker = locker;
+
+    locker.setMember(this);
+  }
 }

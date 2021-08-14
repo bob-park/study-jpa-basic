@@ -23,8 +23,14 @@ public class JpaMain {
     // code
     try {
 
+      Locker locker = new Locker();
+      locker.setName("lockerA");
+
+      em.persist(locker);
+
       Member member = new Member();
       member.setUsername("memberA");
+      member.setLocker(locker);
 
       em.persist(member);
 
