@@ -1,7 +1,9 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -24,6 +26,11 @@ public class Member {
   @OneToOne
   @JoinColumn(name = "LOCKER_ID") // ! 꼭 넣자 - 않넣으면 default Name 이 지저분함
   private Locker locker;
+
+  // ! N:M 맵핑 시
+  @ManyToMany
+  @JoinTable(name = "MEBMER_PRODUCT")
+  private List<Product> products = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -57,5 +64,13 @@ public class Member {
     this.locker = locker;
 
     locker.setMember(this);
+  }
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<Product> products) {
+    this.products = products;
   }
 }
