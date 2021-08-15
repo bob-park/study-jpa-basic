@@ -1,5 +1,6 @@
 package hellojpa;
 
+import hellojpa.mappedsuper.Member;
 import hellojpa.mapping.Item;
 import hellojpa.mapping.Movie;
 
@@ -7,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 public class JpaMain {
 
@@ -49,6 +51,15 @@ public class JpaMain {
        */
       Item findItem = em.find(Item.class, movie.getId());
       System.out.println("findItem = " + findItem);
+
+      // ! MappedSuperClass
+      Member member = new Member();
+
+      member.setName("memberA");
+      member.setCreatedBy("system");
+      member.setCreatedDate(LocalDateTime.now());
+
+      em.persist(member);
 
       tx.commit();
     } catch (Exception e) {

@@ -3,7 +3,7 @@ package hellojpa.mappedsuper;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
+@MappedSuperclass // 단순히 공통 매핑 정보가 필요 할때 사용
 public class BaseEntity {
 
   private String createdBy;
