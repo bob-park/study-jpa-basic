@@ -3,8 +3,8 @@ package hellojpa.mappedsuper;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@MappedSuperclass // 단순히 공통 매핑 정보가 필요 할때 사용
-public class BaseEntity {
+@MappedSuperclass // 단순히 공통 매핑 정보가 필요 할때 사용 - 따라서, 생성이나 다른 곳에서 사용할 수 없도록, 추상클래스 적용
+public abstract class BaseEntity {
 
   private String createdBy;
   private LocalDateTime createdDate;
