@@ -45,7 +45,7 @@ public class JpaMain {
 
       // ! 상속관계 맵핑이 Single Table 인 경우 문제점
       /*
-       * 부모클래스로 조회하는 경우 Item 을 상속받은 모든 entity 객체를 모두 찾음 - 너무 비효율적으로 동작함
+       * 부모클래스로 조회하는 경우 부모클래스를 상속받은 모든 entity 객체를 모두 찾음 - 너무 비효율적으로 동작함
        */
       Item findItem = em.find(Item.class, movie.getId());
       System.out.println("findItem = " + findItem);
