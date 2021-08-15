@@ -1,10 +1,11 @@
 package hellojpa;
 
+import hellojpa.join.Movie;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -23,6 +24,24 @@ public class JpaMain {
 
     // code
     try {
+
+      /*
+       * 조인 전략
+       */
+      Movie movie = new Movie();
+      movie.setName("movieA");
+      movie.setDirector("A");
+      movie.setActor("A");
+      movie.setPrice(10000);
+
+      em.persist(movie);
+
+      em.flush();
+      em.clear();
+
+      Movie findMovie = em.find(Movie.class, movie.getId());
+
+      System.out.println("findMovie = " + findMovie.getName());
 
       tx.commit();
     } catch (Exception e) {
