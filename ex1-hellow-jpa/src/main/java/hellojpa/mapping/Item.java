@@ -16,7 +16,7 @@ import javax.persistence.*;
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // 단일 테이블 전략
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // 구현 클래스마다 테이블 전략
 @DiscriminatorColumn // 부모 테이블에 type 전략 추가 - 단, Single Table 전략인 경우 무조건 @DiscriminatorColumn 적용된다.
-public class Item {
+public abstract class Item {
 
   @Id @GeneratedValue private Long id;
 
