@@ -1,6 +1,6 @@
 package hellojpa;
 
-import hellojpa.join.Movie;
+import hellojpa.mapping.Movie;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

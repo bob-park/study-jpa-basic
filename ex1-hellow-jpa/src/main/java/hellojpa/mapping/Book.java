@@ -1,4 +1,4 @@
-package hellojpa.join;
+package hellojpa.mapping;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
