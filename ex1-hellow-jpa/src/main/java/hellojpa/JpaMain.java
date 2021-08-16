@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -24,8 +23,28 @@ public class JpaMain {
     // code
     try {
 
+      Team team = new Team();
+      team.setName("teamA");
+
+      em.persist(team);
+
+      Member member = new Member();
+      member.setName("memberA");
+
+      team.addMember(member);
+
+      em.persist(member);
+
+      em.flush();
+      em.clear();
+
+      Member findMember = em.find(Member.class, member.getId());
+
+      printMemberAndTeam(findMember);
+
       tx.commit();
     } catch (Exception e) {
+      e.printStackTrace();
       tx.rollback();
     } finally {
       // close
@@ -33,5 +52,11 @@ public class JpaMain {
     }
 
     emf.close();
+  }
+
+  private static void printMemberAndTeam(Member findMember) {
+
+    System.out.println("name = " + findMember.getName());
+    System.out.println("team = " + findMember.getTeam());
   }
 }
