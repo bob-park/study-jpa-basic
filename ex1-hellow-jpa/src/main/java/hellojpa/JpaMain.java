@@ -65,8 +65,8 @@ public class JpaMain {
   private static void printMember(Member findMember) {
 
     // ! JPA Proxy 에서 생성한 가짜 Entity - DB Query 실행 후 진짜 entity 생성하여 method() 를 실행하게 된다.
-    // getName() -> Proxy -> Persistence Context 초기화 요청 -> DB Query 실행 -> 실제 Entity 생성 ->
-    // Entity.getName() 실행
+    // ! Proxy 가 변경되는 것이 아님 - 진짜 entity 에 접근하는 거임
+    // ! 타입 체크 시 주의 - equals() or == X , instanceof O
     System.out.println("findMember = " + findMember.getClass());
     System.out.println(
         "findMember.id = " + findMember.getId()); // JPA 조회 시 ID 로 조회하기 때문에 ID 는 들어간다.
