@@ -13,14 +13,14 @@ public class Category {
 
   private String name;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PARENT_ID")
   private Category parent;
 
   @OneToMany(mappedBy = "parent")
   private List<Category> child = new ArrayList<>();
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "CATEGORY_ITEM",
       // 여기서 조인하는 컬럼
