@@ -6,7 +6,7 @@ import java.util.Date;
 @Entity
 public class Member {
 
-  @Id @GeneratedValue private String id;
+  @Id @GeneratedValue private Long id;
 
   private String name;
 
@@ -14,11 +14,11 @@ public class Member {
   @JoinColumn(name = "team_id")
   private Team team;
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -36,5 +36,10 @@ public class Member {
 
   public void setTeam(Team team) {
     this.team = team;
+  }
+
+  @Override
+  public String toString() {
+    return "Member{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", team=" + team + '}';
   }
 }
