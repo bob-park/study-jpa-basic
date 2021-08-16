@@ -1,9 +1,8 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
 
 public class JpaMain {
 
@@ -15,6 +14,9 @@ public class JpaMain {
     // * 트랜잭션 단위, 또는 작업 단위마다 EntityManager 를 생성하여 사용해야한다.
     // * 쓰레드간 공유가 되지 않는다.
     EntityManager em = emf.createEntityManager();
+
+    // * Persistence Util
+    PersistenceUnitUtil puu = emf.getPersistenceUnitUtil();
 
     // * JPA 의 모든 변경은 트랜잭션 안에서 실행되어야 한다.
     EntityTransaction tx = em.getTransaction();
@@ -42,13 +44,47 @@ public class JpaMain {
       //      Member findMember = em.find(Member.class, member.getId());
 
       // * getRefernece() 만 실행하면, DB Query 를 실행하지 않은다. - 실제 member 가 사용되는 시점에 쿼리가 실행된다.
-      Member findMember = em.getReference(Member.class, member.getId());
+      // ! 찾는 member 가 Persistence Context 에 있는 경우 Proxy 대신 실제 Entity 가 반환된다.
+      // Persistence Context 에 없으면 MemberProxy 가 반환됨
+      // Persistence Context 에 있으면, Member 가 반환됨
+      Member reference = em.getReference(Member.class, member.getId());
+
+      // ! Persistence Context 에 해당 member 의 아이디에 속하는 Proxy 가 존재한다면, find() 를 해도 proxy 가 반환된다.
+      Member findMember = em.find(Member.class, member.getId());
 
       // ! member 와 Team 을 출력할 경우
       //      printMemberAndTeam(findMember);
 
       // ! member 만 출력할 경우
-      printMember(findMember);
+      printMember(reference);
+
+      System.out.println("reference == findMember : " + (reference == findMember)); // 항상 true 이다
+
+      em.flush();
+      em.clear();
+
+      Member reference2 = em.getReference(Member.class, member.getId());
+
+      System.out.println("reference2.getClass() = " + reference2.getClass());
+
+      // ! Persistence Context 의 도움을 받을 수 없는 준영속 상태일 경우, LazyInitializationException 발생
+      // Proxy 를 초기화 할 수없음
+      //      em.detach(reference2);
+      //      em.clear();
+
+      //      reference2.getName();
+
+      // * Proxy Util method
+
+      // is loaded
+      System.out.println("loaded : " + puu.isLoaded(reference2));
+
+      // initialize - 강제 초기화
+      // ! JPA 표준은 강제 초기화 없음 - 이거는 hibernate 임 - jpa 는 해당 entity method() 실행하면 초기화 됨
+      System.out.println("==========initialize==========");
+      Hibernate.initialize(reference2);
+      System.out.println("==========print==========");
+      System.out.println("reference2.name = " + reference2.getName());
 
       tx.commit();
     } catch (Exception e) {
