@@ -25,12 +25,25 @@ public class JpaMain {
     // code
     try {
 
-      Member member = new Member();
-      member.setName("memberA");
-      member.setAddress(new Address("city", "street", "zipcode"));
-      member.setWorkPeriod(new Period(LocalDateTime.now(), LocalDateTime.now()));
+      Address address = new Address("city", "street", "zipcode");
 
-      em.persist(member);
+      Member memberA = new Member();
+      memberA.setName("memberA");
+      memberA.setAddress(address);
+      memberA.setWorkPeriod(new Period(LocalDateTime.now(), LocalDateTime.now()));
+
+      em.persist(memberA);
+
+      Member memberB = new Member();
+      memberB.setName("memberB");
+      memberB.setAddress(address);
+
+      em.persist(memberB);
+
+      // ! Embedded Type 사용시 주의사항
+      // 같은 객채를 수정해버린 경우 값이 공유되어, 해당 객채의 주소값을 가진 entity 들이 모두 변경될 수 있다.
+      // 따라서, 불변객체로 만들어야 한다.
+//      memberA.getAddress().setCity("newCity");
 
       tx.commit();
     } catch (Exception e) {
