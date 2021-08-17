@@ -33,9 +33,13 @@ public class Member {
   @Column(name = "food_name")
   private Set<String> favoriteFoods = new HashSet<>();
 
-  @ElementCollection
-  @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "member_id"))
-  private List<Address> addressHistory = new ArrayList<>();
+  //  @ElementCollection
+  //  @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "member_id"))
+  //  private List<Address> addressHistory = new ArrayList<>();
+
+  // * Collection Type 을 1:N 관계로 변경
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<AddressEntity> addressHistory = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -85,11 +89,14 @@ public class Member {
     this.favoriteFoods = favoriteFoods;
   }
 
-  public List<Address> getAddressHistory() {
+  public List<AddressEntity> getAddressHistory() {
     return addressHistory;
   }
 
-  public void setAddressHistory(List<Address> addressHistory) {
-    this.addressHistory = addressHistory;
+  public void addAddressHistory(AddressEntity address) {
+
+    address.setMebmer(this);
+
+    addressHistory.add(address);
   }
 }
