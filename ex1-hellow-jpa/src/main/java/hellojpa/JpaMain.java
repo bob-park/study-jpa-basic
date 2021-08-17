@@ -43,7 +43,12 @@ public class JpaMain {
       // ! Embedded Type 사용시 주의사항
       // 같은 객채를 수정해버린 경우 값이 공유되어, 해당 객채의 주소값을 가진 entity 들이 모두 변경될 수 있다.
       // 따라서, 불변객체로 만들어야 한다.
-//      memberA.getAddress().setCity("newCity");
+      //      memberA.getAddress().setCity("newCity");
+
+      // * 객체를 새로 생성해야한다.
+      Address newAddress = new Address("new City", address.getStreet(), address.getZipcode());
+
+      memberB.setAddress(newAddress);
 
       tx.commit();
     } catch (Exception e) {
