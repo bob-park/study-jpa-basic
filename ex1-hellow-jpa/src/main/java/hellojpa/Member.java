@@ -2,7 +2,7 @@ package hellojpa;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Member {
@@ -25,6 +25,17 @@ public class Member {
     @AttributeOverride(name = "zipcode", column = @Column(name = "delivery_zipcode"))
   })
   private Address deliveryAddress;
+
+  // ! Collection Type
+  // 관계형 DB 는 Collection 를 저장하지 못하기 때문에, 별도의 테이블을 생성하여 관리(1:N 관계)
+  @ElementCollection
+  @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "member_id"))
+  @Column(name = "food_name")
+  private Set<String> favoriteFoods = new HashSet<>();
+
+  @ElementCollection
+  @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "member_id"))
+  private List<Address> addressHistory = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -64,5 +75,21 @@ public class Member {
 
   public void setDeliveryAddress(Address deliveryAddress) {
     this.deliveryAddress = deliveryAddress;
+  }
+
+  public Set<String> getFavoriteFoods() {
+    return favoriteFoods;
+  }
+
+  public void setFavoriteFoods(Set<String> favoriteFoods) {
+    this.favoriteFoods = favoriteFoods;
+  }
+
+  public List<Address> getAddressHistory() {
+    return addressHistory;
+  }
+
+  public void setAddressHistory(List<Address> addressHistory) {
+    this.addressHistory = addressHistory;
   }
 }

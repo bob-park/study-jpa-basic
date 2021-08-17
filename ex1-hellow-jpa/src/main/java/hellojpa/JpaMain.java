@@ -57,6 +57,23 @@ public class JpaMain {
       System.out.println("address == address1 : " + (address == address1)); // false
       System.out.println("address == address1 : " + (address.equals(address1))); // true
 
+      // * Collection Type 사용
+      Address addressC = new Address("cityC", "streetC", "zipcodeC");
+
+      Member memberC = new Member();
+
+      memberC.setName("memberC");
+      memberC.setAddress(addressC);
+
+      memberC.getFavoriteFoods().add("치킨");
+      memberC.getFavoriteFoods().add("족발");
+
+      memberC.getAddressHistory().add(new Address("cityA", "streetA", "zipcodeA"));
+      memberC.getAddressHistory().add(new Address("cityB", "streetB", "zipcodeB"));
+      memberC.getAddressHistory().add(addressC);
+
+      em.persist(memberC);
+
       tx.commit();
     } catch (Exception e) {
       tx.rollback();
