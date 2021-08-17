@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 public class JpaMain {
@@ -49,6 +50,12 @@ public class JpaMain {
       Address newAddress = new Address("new City", address.getStreet(), address.getZipcode());
 
       memberB.setAddress(newAddress);
+
+      // * Embedded Type 비교
+      // equals 를 override 하지 않는 경우 당연히 false
+      Address address1 = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+      System.out.println("address == address1 : " + (address == address1)); // false
+      System.out.println("address == address1 : " + (address.equals(address1))); // true
 
       tx.commit();
     } catch (Exception e) {
