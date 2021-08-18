@@ -19,10 +19,16 @@ public class JpqlMain {
 
     try {
 
+      Team teamA = new Team();
+      teamA.setName("teamA");
+
+      em.persist(teamA);
+
       for (int i = 0; i < 100; i++) {
         Member member = new Member();
         member.setUsername("member" + i);
         member.setAge(i);
+
         em.persist(member);
       }
 
@@ -30,11 +36,17 @@ public class JpqlMain {
       memberA.setUsername("memberA");
       memberA.setAge(10);
 
+      teamA.addMember(memberA);
+
       em.persist(memberA);
+
+      em.flush();
+      em.clear();
 
       // * Type Query - Query
       TypedQuery<Member> typeQuery1 =
-          em.createQuery("select m from Member m where m.id=1", Member.class); // Type 이 명확할 때 사용
+          em.createQuery(
+              "select m from Member m where m.username='memberA'", Member.class); // Type 이 명확할 때 사용
       Query query1 = em.createQuery("select m.username, m.age from Member m"); // Type 이 명확하지 않을 때
 
       // * 결과 조회
@@ -122,6 +134,44 @@ public class JpqlMain {
       for (Member member : findResult5) {
         System.out.println("member = " + member);
       }
+
+      /*
+       * Join
+       */
+      // * inner join
+      List<Member> findResult6 =
+          em.createQuery("select m from Member m inner join m.team t", Member.class)
+              .getResultList();
+
+      for (Member member : findResult6) {
+        System.out.println("member = " + member);
+      }
+
+      // * outer join
+      List<Member> findResult7 =
+          em.createQuery("select m from Member m left outer join m.team t", Member.class)
+              .getResultList();
+
+      for (Member member : findResult7) {
+        System.out.println("member = " + member);
+      }
+
+      // * 세타 조인
+      List<Member> findResult8 =
+          em.createQuery("select m from Member m, Team t where m.username = t.name", Member.class)
+              .getResultList();
+
+      for (Member member : findResult8) {
+        System.out.println("member = " + member);
+      }
+
+      // * on 절
+
+      em.createQuery("select m from Member m left join m.team t on t.name='teamA'").getResultList();
+
+      // * 연관관계 없는 외부 조인
+      em.createQuery("select m from Member m left join Team t on m.username=t.name", Member.class)
+          .getResultList();
 
       tx.commit();
     } catch (Exception e) {
