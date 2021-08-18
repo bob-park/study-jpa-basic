@@ -61,7 +61,15 @@ public class JpaMain {
         System.out.println("item = " + item);
       }
       // * native SQL
-      em.createNativeQuery("SELECT m.* from MEMBER M", Member.class).getResultList();
+      List<Member> findMemberList1 =
+          em.createNativeQuery("SELECT m.* from MEMBER M", Member.class).getResultList();
+
+      for (Member member1 : findMemberList1) {
+        System.out.println("member1 = " + member1);
+      }
+
+      // ! flush -> commit, JPQL 하기 전에 호출됨
+      // JDBC 직접 사용할때 SQL 실행 전에 flush 필요
 
       tx.commit();
     } catch (Exception e) {
