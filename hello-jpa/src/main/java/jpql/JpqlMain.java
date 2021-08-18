@@ -173,6 +173,13 @@ public class JpqlMain {
       em.createQuery("select m from Member m left join Team t on m.username=t.name", Member.class)
           .getResultList();
 
+      /*
+       * 서브 쿼리
+       */
+      // ! from 절에서 서브 쿼리가 불가능 -> 조인으로 풀 수 있을 경우 풀어서 해결해야 한다.
+      em.createQuery("select (select avg(m1) from Member m1) as avgAge from Member m").getResultList();
+
+
       tx.commit();
     } catch (Exception e) {
       e.printStackTrace();
