@@ -1,6 +1,7 @@
 package jpql;
 
 import javax.persistence.*;
+import java.util.List;
 
 public class JpqlMain {
 
@@ -28,6 +29,13 @@ public class JpqlMain {
       TypedQuery<Member> typeQuery1 =
           em.createQuery("select m from Member m", Member.class); // Type 이 명확할 때 사용
       Query query1 = em.createQuery("select m.username, m.age from Member m"); // Type 이 명확하지 않을 때
+
+      // * 결과 조회
+      List<Member> resultList1 = typeQuery1.getResultList(); // 하나 이상일때, 결과가 없는 경우 empty list 반환
+
+      // 없는 경우 -> NoResultException - 결과가 없는 경우를 사용하고 싶을 경우 try ~ catch 해야함
+      // 두개 이상인 경우 -> NonUniqueResultException
+      Member singleResult1 = typeQuery1.getSingleResult(); // 정확히 하나일 때 - 따라서 값이 보장될 때 사용해야한다.
 
       tx.commit();
     } catch (Exception e) {
