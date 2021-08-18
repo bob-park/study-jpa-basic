@@ -177,7 +177,38 @@ public class JpqlMain {
        * 서브 쿼리
        */
       // ! from 절에서 서브 쿼리가 불가능 -> 조인으로 풀 수 있을 경우 풀어서 해결해야 한다.
-      em.createQuery("select (select avg(m1) from Member m1) as avgAge from Member m").getResultList();
+      em.createQuery("select (select avg(m1) from Member m1) as avgAge from Member m")
+          .getResultList();
+
+      /*
+       * JPQL 타입 표현
+       */
+      // * enum - 패키지를 모두 적어주어야 한다.
+      em.createQuery("select m from Member m where m.memberType=jpql.MemberType.USER", Member.class)
+          .getResultList();
+      // 파라미터 바인딩을 하면 편하다.
+      em.createQuery("select m from Member m where m.memberType= :memberType", Member.class)
+          .setParameter("memberType", MemberType.USER)
+          .getResultList();
+
+      em.flush();
+      em.clear();
+
+      Book bookA = new Book();
+
+      bookA.setName("bookA");
+      bookA.setAuthor("hwpark");
+
+      em.persist(bookA);
+
+      // * entity type
+      List<Item> findResult9 =
+          em.createQuery("select i from Item i where type(i) = Book", Item.class).getResultList();
+
+      for (Item item : findResult9) {
+        System.out.println("item = " + item);
+      }
+
 
 
       tx.commit();
