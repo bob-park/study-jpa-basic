@@ -4,6 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class JpaMain {
@@ -29,12 +32,33 @@ public class JpaMain {
 
       em.persist(member);
 
+      em.flush();
+      em.clear();
+
+      // * JPQL
       List<Member> resultList =
           em.createQuery("select m from Member m where m.username like '%A%'", Member.class)
               .getResultList();
 
       for (Member mem : resultList) {
         System.out.println("mem = " + mem);
+      }
+
+      // * Criteria
+      CriteriaBuilder cb = em.getCriteriaBuilder();
+
+      CriteriaQuery<Member> query = cb.createQuery(Member.class);
+
+      // 루트 클래스 - 조회 시작할 클래스
+      Root<Member> m = query.from(Member.class);
+
+      // query 생성
+      CriteriaQuery<Member> cq = query.select(m).where(cb.like(m.get("username"), "%A%"));
+
+      List<Member> findMemberList = em.createQuery(cq).getResultList();
+
+      for (Member item : findMemberList) {
+        System.out.println("item = " + item);
       }
 
       tx.commit();
