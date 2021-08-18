@@ -69,6 +69,38 @@ public class JpqlMain {
       // * Scala type Projection
       em.createQuery("select m.username, m.age from Member m").getResultList();
 
+      /*
+       * Projection - 여러값 조회
+       */
+      // * Query 타입 조회
+      List findResult2 = em.createQuery("select m.username, m.age from Member m").getResultList();
+
+      Object o = findResult2.get(0);
+      Object[] result1 = (Object[]) o;
+
+      System.out.println("username = " + result1[0]);
+      System.out.println("age = " + result1[1]);
+
+      // * Object[] 타입  조회
+      List<Object[]> findResult3 =
+          em.createQuery("select m.username, m.age from Member m").getResultList();
+      Object[] result2 = findResult3.get(0);
+
+      System.out.println("username = " + result2[0]);
+      System.out.println("age = " + result2[1]);
+
+      // * new 명령어로 조회
+      // ! 반드시 생성자가 필요함
+      List<MemberDTO> findResult4 =
+          em.createQuery(
+                  "select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+              .getResultList();
+
+      for (MemberDTO memberDTO : findResult4) {
+        System.out.println("memberDTO.username = " + memberDTO.getUsername());
+        System.out.println("memberDTO.age = " + memberDTO.getAge());
+      }
+
       tx.commit();
     } catch (Exception e) {
       e.printStackTrace();
