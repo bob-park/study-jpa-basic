@@ -37,6 +37,15 @@ public class JpqlMain {
       // 두개 이상인 경우 -> NonUniqueResultException
       Member singleResult1 = typeQuery1.getSingleResult(); // 정확히 하나일 때 - 따라서 값이 보장될 때 사용해야한다.
 
+      // * 파라미터 바인딩
+      TypedQuery<Member> typeQuery2 =
+          em.createQuery("select m from Member m where m.username=:username", Member.class);
+      typeQuery2.setParameter("username", "memberA");
+
+      Member findMemberA = typeQuery2.getSingleResult();
+
+      System.out.println("findMemberA.name = " + findMemberA.getUsername());
+
       tx.commit();
     } catch (Exception e) {
       e.printStackTrace();
