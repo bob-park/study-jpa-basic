@@ -19,6 +19,13 @@ public class JpqlMain {
 
     try {
 
+      for (int i = 0; i < 100; i++) {
+        Member member = new Member();
+        member.setUsername("member" + i);
+        member.setAge(i);
+        em.persist(member);
+      }
+
       Member memberA = new Member();
       memberA.setUsername("memberA");
       memberA.setAge(10);
@@ -27,7 +34,7 @@ public class JpqlMain {
 
       // * Type Query - Query
       TypedQuery<Member> typeQuery1 =
-          em.createQuery("select m from Member m", Member.class); // Type 이 명확할 때 사용
+          em.createQuery("select m from Member m where m.id=1", Member.class); // Type 이 명확할 때 사용
       Query query1 = em.createQuery("select m.username, m.age from Member m"); // Type 이 명확하지 않을 때
 
       // * 결과 조회
@@ -99,6 +106,21 @@ public class JpqlMain {
       for (MemberDTO memberDTO : findResult4) {
         System.out.println("memberDTO.username = " + memberDTO.getUsername());
         System.out.println("memberDTO.age = " + memberDTO.getAge());
+      }
+
+      /*
+       * Pagination
+       */
+      List<Member> findResult5 =
+          em.createQuery("select m from Member m order by m.age desc", Member.class)
+              .setFirstResult(1)
+              .setMaxResults(10)
+              .getResultList(); // 페이징 시 order by 를 꼭 넣어야 확인 가능
+
+      System.out.println("findResult5.size = " + findResult5.size());
+
+      for (Member member : findResult5) {
+        System.out.println("member = " + member);
       }
 
       tx.commit();

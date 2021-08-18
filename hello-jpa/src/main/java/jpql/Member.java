@@ -49,4 +49,9 @@ public class Member {
     this.team = team;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Member{" + "id=" + id + ", username='" + username + '\'' + ", age=" + age + '}';
+  }
 }
