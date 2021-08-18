@@ -26,7 +26,7 @@ public class JpqlMain {
 
       for (int i = 0; i < 100; i++) {
         Member member = new Member();
-        member.setUsername("member" + i);
+        //        member.setUsername("member" + i);
         member.setAge(i);
 
         em.persist(member);
@@ -209,7 +209,45 @@ public class JpqlMain {
         System.out.println("item = " + item);
       }
 
+      em.flush();
+      em.clear();
 
+      /*
+       * 조건식 - CASE
+       */
+      // * CASE
+      List<String> findResult10 =
+          em.createQuery(
+                  "select "
+                      + "case when m.age <= 10 then '학생 요금' "
+                      + "when m.age >= 60 then '경로 요금' "
+                      + "else '일반 요금' "
+                      + "end "
+                      + "from Member m where m.team is not null",
+                  String.class)
+              .getResultList();
+
+      for (String s : findResult10) {
+        System.out.println("result = " + s);
+      }
+
+      // * Coalesce - 하나씩 조회해서 null 이 아니면 반환
+      List<String> findResult11 =
+          em.createQuery("select coalesce(m.username, '이름 없는 회원') from Member m", String.class)
+              .getResultList();
+
+      for (String s : findResult11) {
+        System.out.println("result = " + s);
+      }
+
+      // * nullIf - 두 값이 같으면 null, 다르면 첫번쨰 값 반환
+      List<String> findResult12 =
+          em.createQuery("select nullif(m.username, 'memberA') from Member m", String.class)
+              .getResultList();
+
+      for (String s : findResult12) {
+        System.out.println("result = " + s);
+      }
 
       tx.commit();
     } catch (Exception e) {
