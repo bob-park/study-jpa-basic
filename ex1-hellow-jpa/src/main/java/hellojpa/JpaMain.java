@@ -60,6 +60,8 @@ public class JpaMain {
       for (Member item : findMemberList) {
         System.out.println("item = " + item);
       }
+      // * native SQL
+      em.createNativeQuery("SELECT m.* from MEMBER M", Member.class).getResultList();
 
       tx.commit();
     } catch (Exception e) {
