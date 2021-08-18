@@ -6,7 +6,7 @@ import java.util.Date;
 @Entity
 public class Member {
 
-  @Id private Long id;
+  @Id @GeneratedValue private Long id;
 
   @Column(name = "name")
   private String username;

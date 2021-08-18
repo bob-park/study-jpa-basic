@@ -24,8 +24,22 @@ public class JpaMain {
     // code
     try {
 
+      Member member = new Member();
+      member.setUsername("memberA");
+
+      em.persist(member);
+
+      List<Member> resultList =
+          em.createQuery("select m from Member m where m.username like '%A%'", Member.class)
+              .getResultList();
+
+      for (Member mem : resultList) {
+        System.out.println("mem = " + mem);
+      }
+
       tx.commit();
     } catch (Exception e) {
+      e.printStackTrace();
       tx.rollback();
     } finally {
       // close
