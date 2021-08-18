@@ -55,6 +55,18 @@ public class JpqlFuncMain {
         System.out.println("result = " + integer);
       }
 
+      // * 사용자 정의 함수
+      List<String> resultList2 =
+          em.createQuery("select function('group_concat', m.username) from Member m", String.class)
+              .getResultList();
+      // hibernate 인 경우
+      em.createQuery("select group_concat(m.username) from Member m")
+          .getResultList(); // JPA 문법에 맞지 않음, 하지만 실행됨 (JPA 는 hibernate 를 확장한 것이기 때문)
+
+      for (String s : resultList2) {
+        System.out.println("result = " + s);
+      }
+
       tx.commit();
     } catch (Exception e) {
       e.printStackTrace();
