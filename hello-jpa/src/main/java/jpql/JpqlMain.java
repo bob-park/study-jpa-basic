@@ -46,6 +46,29 @@ public class JpqlMain {
 
       System.out.println("findMemberA.name = " + findMemberA.getUsername());
 
+      em.flush();
+      em.clear();
+
+      // * entity 프로젝션 - 영속성 관리가 됨
+      List<Member> findResult1 =
+          em.createQuery("select m from Member m", Member.class).getResultList();
+
+      Member findMember = findResult1.get(0);
+      findMember.setAge(15);
+
+      // ! 이런식으로 사용하면 예측하기 어렵기 때문에 사용하지 말고, join 을 명확하게 사용하자
+      em.createQuery("select m.team from Member m", Team.class)
+          .getResultList(); // join query 가 실행된다.
+
+      // 이런식으로 사용하자
+      em.createQuery("select t from Member m join m.team t", Team.class).getResultList();
+
+      // * Embedded type Projection
+      em.createQuery("select o.address from Order o", Address.class).getResultList();
+
+      // * Scala type Projection
+      em.createQuery("select m.username, m.age from Member m").getResultList();
+
       tx.commit();
     } catch (Exception e) {
       e.printStackTrace();
