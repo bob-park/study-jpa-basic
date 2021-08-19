@@ -186,7 +186,7 @@ public class JpqlMain {
        * JPQL 타입 표현
        */
       // * enum - 패키지를 모두 적어주어야 한다.
-      em.createQuery("select m from Member m where m.memberType=jpql.MemberType.USER", Member.class)
+      em.createQuery("select m from Member m where m.memberType=jpql.domain.MemberType.USER", Member.class)
           .getResultList();
       // 파라미터 바인딩을 하면 편하다.
       em.createQuery("select m from Member m where m.memberType= :memberType", Member.class)
