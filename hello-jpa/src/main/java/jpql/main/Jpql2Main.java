@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class Jpql2Main {
 
@@ -58,6 +59,27 @@ public class Jpql2Main {
       // ! 명시적 조인인 경우 탐색 O
       em.createQuery("select m.username from Team t join t.members m")
           .getResultList(); // 별칭을 얻어 사용할 수 있음
+
+      /*
+       * Entity 직접 사용
+       */
+      // * entity 기본키 사용 시 - DB query 실행 시 entity 의 ID 로 변환되어 실행됨
+      Member findMember =
+          em.createQuery("select m from Member m where m = :member", Member.class)
+              .setParameter("member", memberA)
+              .getSingleResult();
+
+      System.out.println("findMember = " + findMember);
+
+      // * entity 외래키 사용시
+      List<Member> resultList01 =
+          em.createQuery("select m from Member m where m.team = :team", Member.class)
+              .setParameter("team", teamA)
+              .getResultList();
+
+      for (Member member : resultList01) {
+        System.out.println("member = " + member);
+      }
 
       tx.commit();
     } catch (Exception e) {
