@@ -1,4 +1,4 @@
-package jpql;
+package jpql.domain;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

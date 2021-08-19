@@ -1,4 +1,6 @@
-package jpql;
+package jpql.main;
+
+import jpql.domain.*;
 
 import javax.persistence.*;
 import java.util.List;

@@ -1,4 +1,4 @@
-package jpql;
+package jpql.domain;
 
 public enum MemberType {
   USER
